@@ -44,20 +44,20 @@ async function salvar() {
     if (M.k === "novo") {
       const n = v("n"); if (!n) return erro("Digite o nome do insumo.");
       if (S.ins.some(x => x.nome.toLowerCase() === n.toLowerCase())) return erro("Esse insumo já existe.");
-      const ref = await add("ins", { nome: n, un: v("u") || "un", cat: v("c"), min: parseFloat(v("mn")) || 0 });
+      const ref = await add("ins", { nome: n, un: "un", cat: v("c"), min: parseFloat(v("mn")) || 0 });
       const q0 = parseFloat(v("q0"));
       if (q0 > 0) await add("mov", { tipo: "entrada", insId: ref.id, tecId: "", qtd: q0, data: hoje(), obs: "Estoque inicial", por, hora: agora() });
     } else if (M.k === "edit") {
       const n = v("n"); if (!n) return erro("Digite o nome.");
       i = ins(M.id);
-      await upd("ins", M.id, { nome: n, un: v("u") || i.un, cat: v("c"), min: parseFloat(v("mn")) || 0 });
+      await upd("ins", M.id, { nome: n, un: "un", cat: v("c"), min: parseFloat(v("mn")) || 0 });
     } else {
       const q = parseFloat(v("q")), d = v("d"), t = v("t");
       if (!(q > 0)) return erro("Digite a quantidade.");
       if (!d) return erro("Escolha a data.");
       if (M.k === "saida") {
         if (!t) return erro("Escolha quem está retirando.");
-        const e = est(M.id); if (q > e) return erro("Só tem " + e + " " + ins(M.id).un + " no estoque.");
+        const e = est(M.id); if (q > e) return erro("Só tem " + e + " un no estoque.");
       }
       await add("mov", { tipo: M.k, insId: M.id, tecId: M.k === "saida" ? t : "", qtd: q, data: d, obs: v("o"), por, hora: agora() });
     }
@@ -76,9 +76,15 @@ const A = {
   rapido: n => { if (n === "all") { st.DF = ""; st.DT = ""; } else { st.DF = ymd(+n); st.DT = ymd(0); } renderTab(); },
   async delIns(id) {
     const i = ins(id);
-    if (S.mov.some(m => m.insId === id)) return alert("Não dá para excluir: " + i.nome + " já tem movimentações no histórico.");
+    // Só bloqueia se ainda existir retirada no histórico. Entradas não impedem a exclusão.
+    if (S.mov.some(m => m.insId === id && m.tipo === "saida")) return alert("Não dá para excluir: " + i.nome + " ainda tem retiradas no histórico. Apague as retiradas primeiro.");
     if (!confirm("Excluir " + i.nome + "?")) return;
-    await del("ins", id); fechar();
+    try {
+      // remove também as entradas desse insumo (estoque inicial etc.)
+      await Promise.all(S.mov.filter(m => m.insId === id).map(m => del("mov", m.id)));
+      await del("ins", id);
+    } catch (e) { return alert("Erro ao excluir: " + e.message); }
+    fechar();
   },
   async addTec() {
     const n = v("tn"); if (!n) return alert("Digite o nome do técnico.");

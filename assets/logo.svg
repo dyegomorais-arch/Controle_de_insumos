@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286 78" role="img" aria-label="Sillion">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#8f1d24"/><stop offset=".5" stop-color="#d8353d"/><stop offset="1" stop-color="#8f1d24"/>
+    </linearGradient>
+  </defs>
+  <path d="M4 30 Q140 -14 276 30 Q140 0 4 30 Z" fill="url(#g)"/>
+  <g fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M44 41 C44 37 40 35 32 35 H23 C16 35 13 38 13 42 C13 46 16 50 23 50 H33 C40 50 44 53 44 58 C44 62 40 65 33 65 H22 C14 65 11 62 11 58"/>
+    <path d="M62 35 V65"/>
+    <path d="M78 35 V65 H102"/>
+    <path d="M118 35 V65 H142"/>
+    <path d="M158 35 V65"/>
+    <rect x="176" y="35" width="42" height="30" rx="14"/>
+    <path d="M236 65 V35 L266 65 V35"/>
+  </g>
+  <circle cx="278" cy="38" r="3.4" fill="none" stroke="#bbb" stroke-width=".8"/>
+  <text x="278" y="39.6" font-family="Arial,sans-serif" font-size="4.6" font-weight="700" fill="#bbb" text-anchor="middle">R</text>
+</svg>

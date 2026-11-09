@@ -54,16 +54,16 @@ input.f{margin-bottom:12px}
 .chip{border:2px solid var(--bd);background:var(--card);color:var(--tx);padding:7px 14px;border-radius:99px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
 .chip.on{border-color:var(--ac);background:var(--ac);color:var(--acx)}
 .dt{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}.dt label{margin:0 0 3px}
-.top-h{background:#323232;border-bottom:4px solid #a82830;padding:12px 16px}
+.top-h{background:linear-gradient(180deg,#3a3a3a,#2b2b2b);border-bottom:4px solid #a82830;padding:14px 16px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
 .top-h div{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:14px}
-.top-h img{height:38px;width:auto;display:block}
+.top-h img{height:46px;width:auto;display:block}
 .top-h span{color:#fff;font-weight:600;font-size:16px;border-left:1px solid #5a5a5a;padding-left:14px;letter-spacing:.3px}
 
 /* --- login e extras (versão Firebase) --- */
 .login{min-height:100vh;display:grid;place-items:center;padding:16px}
 .lc{background:var(--card);border:1px solid var(--bd);border-radius:16px;width:100%;max-width:380px;overflow:hidden;padding:0 20px 22px}
-.lc .lg{background:#323232;border-bottom:4px solid #a82830;margin:0 -20px 18px;padding:18px;text-align:center}
-.lc .lg img{height:44px;width:auto}
+.lc .lg{background:linear-gradient(180deg,#3a3a3a,#2b2b2b);border-bottom:4px solid #a82830;margin:0 -20px 18px;padding:18px;text-align:center}
+.lc .lg img{height:64px;width:auto}
 .lc h1{font-size:20px;text-align:center;margin:0 0 6px}
 .lc .pri{margin-top:16px}
 .top-h div{justify-content:space-between}
@@ -76,3 +76,6 @@ button:disabled{opacity:.6;cursor:wait}
 nav{grid-template-columns:repeat(3,1fr)}
 nav button{font-size:14px;padding:12px 2px}
 @media (max-width:420px){nav button{font-size:12px}}
+
+@media (max-width:480px){.top-h img{height:38px}.top-h .brand>span{display:none}.top-h .who small{max-width:110px}}
+.top-h .brand,.top-h .who{border-left:0;padding-left:0}

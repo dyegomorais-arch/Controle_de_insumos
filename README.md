@@ -12,7 +12,7 @@ js/db.js              Firestore (tempo real) + helpers
 js/ui.js              telas (só HTML)
 js/app.js             lógica e eventos
 firestore.rules       regras de segurança
-assets/logo.png
+assets/logo.svg (+ logo.png, icon.png)
 ```
 
 ## Configurar o Firebase

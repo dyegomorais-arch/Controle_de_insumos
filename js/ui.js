@@ -5,7 +5,7 @@ export const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&
 export const fd = s => (s ? s.split("-").reverse().join("/") : "");
 // "maria.souza@x.com" -> "Maria Souza"
 export const nomeDe = e => String(e || "").split("@")[0].replace(/[._-]+/g, " ").replace(/\b\w/g, c => c.toUpperCase()) || "—";
-export const UN = ["un", "rolo", "metro", "kg", "caixa", "pacote", "par", "litro", "peça"];
+export const UN = "un"; // única unidade usada no sistema
 
 export function authErr(code) {
   const m = {
@@ -20,7 +20,7 @@ export function authErr(code) {
 
 export const loginView = () =>
   `<div class="login"><form id="lf" class="lc">
-    <div class="lg"><img src="assets/logo.png" alt="Sillion"></div>
+    <div class="lg"><img src="assets/logo.svg" alt="Sillion"></div>
     <h1>Controle de Estoque</h1>
     <label>E-mail</label><input id="em" type="email" autocomplete="username" required>
     <label>Senha</label><input id="pw" type="password" autocomplete="current-password" required>
@@ -30,7 +30,7 @@ export const loginView = () =>
 
 export const shell = email =>
   `<header class="top-h"><div>
-    <span class="brand"><img alt="Sillion" src="assets/logo.png"><span>Controle de Estoque</span></span>
+    <span class="brand"><img alt="Sillion" src="assets/logo.svg"><span>Controle de Estoque</span></span>
     <span class="who"><small>${esc(email)}</small><button class="out" data-a="logout">Sair</button></span>
   </div></header>
   <main><nav id="nav"></nav><div id="app"></div></main><div id="modal"></div>`;
@@ -73,7 +73,7 @@ export function listaIns(st) {
   if (!L.length) return `<div class="empty">${st.FL === "repor" && !q ? "Nada para repor. 👍" : "Nenhum insumo encontrado."}</div>`;
   return L.map(i => { const low = lowOf(i);
     return `<div class="li${low ? " low" : ""}"><div class="n"><b>${esc(i.nome)}</b><div class="mut">${esc(i.cat) || "Sem categoria"}</div></div>
-      <div class="q"><b>${est(i.id)}</b> ${esc(i.un)}<span>${low ? "Repor · " : ""}mín ${i.min}</span></div>
+      <div class="q"><b>${est(i.id)}</b> ${UN}<span>${low ? "Repor · " : ""}mín ${i.min}</span></div>
       <div class="bt"><button class="b in" title="Entrada" data-a="entrada" data-id="${i.id}">+</button>
       <button class="b out" title="Retirada" data-a="saida" data-id="${i.id}">−</button>
       <button class="ed" title="Editar" data-a="edit" data-id="${i.id}">✎</button></div></div>`; }).join("");
@@ -102,7 +102,7 @@ export function listaEnt(st) {
     const i = ins(m.insId), t = tec(m.tecId), e = m.tipo === "entrada";
     const quando = fd(m.data) + (m.hora ? " às " + m.hora : "") + (m.obs ? " · " + esc(m.obs) : "");
     return `<div class="row"><div class="ic ${e ? "in" : "out"}">${e ? "+" : "📤"}</div><div>
-      <b>${e ? "Entrada de " : ""}${m.qtd} ${esc(i ? i.un : "")} de ${esc(i ? i.nome : "(removido)")}</b>
+      <b>${e ? "Entrada de " : ""}${m.qtd} ${UN} de ${esc(i ? i.nome : "(removido)")}</b>
       ${e ? `<div class="mut">Registrada por: <b>${esc(nomeDe(m.por))}</b></div>`
           : `<div class="mut">Retirado por: <b>${t ? esc(t.nome) : "?"}</b></div>
              <div class="mut">Liberado por: <b>${esc(nomeDe(m.por))}</b>${m.por ? " (" + esc(m.por) + ")" : ""}</div>`}
@@ -118,7 +118,6 @@ export function modalView(M, msg, hoje, quem) {
     const e = M.k === "edit";
     h += `<h3>${e ? "Editar insumo" : "Novo insumo"}</h3>
       <label>Nome</label><input id="n" placeholder="Ex.: Fita isolante" value="${e ? esc(i.nome) : ""}">
-      <label>Unidade</label><select id="u">${UN.map(u => `<option${e && u === i.un ? " selected" : ""}>${u}</option>`).join("")}</select>
       <label>Categoria (opcional)</label><input id="c" placeholder="Ex.: Elétrica" value="${e ? esc(i.cat) : ""}">
       <label>Avisar quando chegar em (estoque mínimo)</label><input id="mn" type="number" min="0" step="any" value="${e ? i.min : ""}" placeholder="0">` +
       (e ? `<button class="lk" style="margin-top:14px" data-a="delIns" data-id="${i.id}">Excluir este insumo</button>`
@@ -128,9 +127,9 @@ export function modalView(M, msg, hoje, quem) {
       <div class="fb" style="grid-template-columns:1fr 1fr"><button class="cx" data-a="fechar">Fechar</button><button class="ok" data-a="irTec">Cadastrar técnico</button></div></div></div>`;
   } else {
     const s = M.k === "saida";
-    h += `<h3>${s ? "Retirada" : "Entrada"}: ${esc(i.nome)}</h3><div class="mut">Disponível agora: <b>${est(i.id)} ${esc(i.un)}</b></div>` +
+    h += `<h3>${s ? "Retirada" : "Entrada"}: ${esc(i.nome)}</h3><div class="mut">Disponível agora: <b>${est(i.id)} ${UN}</b></div>` +
       (s ? `<div class="mut" style="margin-top:8px">Liberado por: <b>${esc(nomeDe(quem))}</b> (você, automático)</div><label>Quem está retirando?</label><select id="t"><option value="">Escolha...</option>${S.tec.map(x => `<option value="${x.id}">${esc(x.nome)}</option>`).join("")}</select>` : "") +
-      `<label>Quantidade (${esc(i.un)})</label><input id="q" type="number" min="0" step="any" placeholder="0">
+      `<label>Quantidade (${UN})</label><input id="q" type="number" min="0" step="any" placeholder="0">
        <label>Data</label><input id="d" type="date" value="${hoje}">
        <label>Observação (opcional)</label><input id="o" placeholder="${s ? "Ex.: obra, cliente, OS" : "Ex.: nota fiscal"}">`;
   }
