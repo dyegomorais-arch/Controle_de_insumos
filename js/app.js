@@ -68,6 +68,14 @@ async function salvar() {
 const A = {
   tab: t => { st.tab = t; renderTab(); },
   logout: () => logout(),
+  eye: () => {
+    const i = $("pw"), b = document.querySelector(".eye");
+    const show = i.type === "password";
+    i.type = show ? "text" : "password";
+    b.innerHTML = V.eyeIcon(show);
+    b.setAttribute("aria-label", show ? "Ocultar senha" : "Mostrar senha");
+    b.title = show ? "Ocultar senha" : "Mostrar senha";
+  },
   novo: () => open("novo"), entrada: id => open("entrada", id), saida: id => open("saida", id), edit: id => open("edit", id),
   fechar, salvar,
   irTec: () => { st.M = null; st.tab = "tec"; renderTab(); },

@@ -63,7 +63,12 @@ input.f{margin-bottom:12px}
 .login{min-height:100vh;display:grid;place-items:center;padding:16px}
 .lc{background:var(--card);border:1px solid var(--bd);border-radius:16px;width:100%;max-width:380px;overflow:hidden;padding:0 20px 22px}
 .lc .lg{background:linear-gradient(180deg,#3a3a3a,#2b2b2b);border-bottom:4px solid #a82830;margin:0 -20px 18px;padding:18px;text-align:center}
-.lc .lg img{height:64px;width:auto}
+.lc .lg h2{margin:0;color:#fff;font-size:22px}
+.lc .lg p{margin:4px 0 0;color:#ddd;font-size:14px}
+.pw-wrap{position:relative}
+.pw-wrap input{padding-right:46px}
+.pw-wrap .eye{position:absolute;right:4px;top:50%;transform:translateY(-50%);background:none;border:0;padding:8px;cursor:pointer;color:var(--tx);opacity:.65;display:flex;line-height:0}
+.pw-wrap .eye:hover{opacity:1}
 .lc h1{font-size:20px;text-align:center;margin:0 0 6px}
 .lc .pri{margin-top:16px}
 .top-h div{justify-content:space-between}
@@ -77,5 +82,5 @@ nav{grid-template-columns:repeat(3,1fr)}
 nav button{font-size:14px;padding:12px 2px}
 @media (max-width:420px){nav button{font-size:12px}}
 
-@media (max-width:480px){.top-h img{height:38px}.top-h .brand>span{display:none}.top-h .who small{max-width:110px}}
+@media (max-width:480px){.top-h img{height:38px}.top-h .who small{max-width:110px}}
 .top-h .brand,.top-h .who{border-left:0;padding-left:0}

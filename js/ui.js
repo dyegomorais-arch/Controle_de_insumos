@@ -18,19 +18,32 @@ export function authErr(code) {
   return m[code] || "Não foi possível entrar. (" + code + ")";
 }
 
+const saudacao = () => {
+  const h = new Date().getHours();
+  return h < 12 ? "Bom dia" : h < 18 ? "Boa tarde" : "Boa noite";
+};
+
+const EYE = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+const EYE_OFF = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+export const eyeIcon = open => (open ? EYE_OFF : EYE);
+
 export const loginView = () =>
   `<div class="login"><form id="lf" class="lc">
-    <div class="lg"><img src="assets/logo.svg" alt="Sillion"></div>
+    <div class="lg"><h2>${saudacao()}! 👋</h2><p>Bem-vindo ao sistema</p></div>
     <h1>Controle de Estoque</h1>
     <label>E-mail</label><input id="em" type="email" autocomplete="username" required>
-    <label>Senha</label><input id="pw" type="password" autocomplete="current-password" required>
+    <label>Senha</label>
+    <div class="pw-wrap">
+      <input id="pw" type="password" autocomplete="current-password" required>
+      <button type="button" class="eye" data-a="eye" aria-label="Mostrar senha" title="Mostrar senha">${EYE}</button>
+    </div>
     <div class="msg" id="lmsg"></div>
     <button class="pri" style="width:100%" type="submit">Entrar</button>
   </form></div>`;
 
 export const shell = email =>
   `<header class="top-h"><div>
-    <span class="brand"><img alt="Sillion" src="assets/logo.svg"><span>Controle de Estoque</span></span>
+    <span class="brand"><span>Controle de Estoque</span></span>
     <span class="who"><small>${esc(email)}</small><button class="out" data-a="logout">Sair</button></span>
   </div></header>
   <main><nav id="nav"></nav><div id="app"></div></main><div id="modal"></div>`;
